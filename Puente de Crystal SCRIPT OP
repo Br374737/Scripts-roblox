@@ -45,4 +45,4 @@ ToggleSection:CreateToggle("Auto win op - Créditos por br374737", function(valu
 end)
 
 -- Sección de créditos
-SquidGameGUI:NewSection("Créditos"):CreateTextLabel("Br374737")
+SquidGameGUI:NewSection("Créditos"):CreateTextLabel("br374737")
