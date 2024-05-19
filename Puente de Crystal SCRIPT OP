@@ -1,0 +1,48 @@
+-- Configuración inicial del juego
+local GameName = "Puente de Cristal"
+local URL_Library = "https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wizard"
+local Player = game.Players.LocalPlayer
+
+-- Funciones auxiliares
+local function GetLibrary()
+    return loadstring(game:HttpGet(URL_Library))()
+end
+
+local function IsRelevantObject(obj)
+    return obj:IsA("BasePart") and obj:FindFirstChild("TouchInterest") and (obj.Name == "Chest" or obj.Name == "EndPortal")
+end
+
+local function FireTouchEvents(obj)
+    firetouchinterest(Player.Character.HumanoidRootPart, obj, 0)
+    wait(0.1)
+    firetouchinterest(Player.Character.HumanoidRootPart, obj, 1)
+end
+
+-- Carga de la biblioteca y creación de la interfaz de usuario
+local Library = GetLibrary()
+local SquidGameGUI = Library:NewWindow(GameName)
+local ToggleSection = SquidGameGUI:NewSection("Autowin")
+
+-- Función principal para mover el personaje
+local function MoveCharacter()
+    for _, obj in ipairs(workspace:GetDescendants()) do
+        if IsRelevantObject(obj) then
+            FireTouchEvents(obj)
+        end
+    end
+end
+
+-- Control del autowin
+local isAutoWinEnabled = false
+ToggleSection:CreateToggle("Auto win op - Créditos por br374737", function(value)
+    isAutoWinEnabled = value
+    if isAutoWinEnabled then
+        repeat
+            MoveCharacter()
+            wait(0.5)
+        until not isAutoWinEnabled
+    end
+end)
+
+-- Sección de créditos
+SquidGameGUI:NewSection("Créditos"):CreateTextLabel("Br374737")
